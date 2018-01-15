@@ -1,0 +1,21 @@
+swagger: '2.0'
+info:
+  title: services
+  version: '0.1'
+consumes:
+  - application/json
+  - multipart/form-data
+produces:
+  - application/json
+paths:
+  /sms/hello/hello:
+    get:
+      tags:
+        - services
+      summary: services
+      operationId: handlers.hello.hello
+      responses:
+        '200':
+          description: hello word
+          schema:
+            type: string
