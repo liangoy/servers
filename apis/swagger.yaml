@@ -5,17 +5,33 @@ info:
 consumes:
   - application/json
   - multipart/form-data
+  - application/x-www-form-urlencoded
 produces:
   - application/json
 paths:
-  /sms/hello/hello:
-    get:
+  /api/test:
+    post:
       tags:
-        - services
-      summary: services
-      operationId: handlers.hello.hello
+        - test
+      summary: test
+      operationId: handlers.api.test
+      parameters:
+        - name: name
+          type: string
+          in: formData
       responses:
         '200':
           description: hello word
           schema:
             type: string
+  /api:
+    get:
+      tags:
+        - api
+      summary: api
+      operationId: handlers.api.api
+      responses:
+        '200':
+          description: 接口返回的内容
+          schema:
+            type: object
