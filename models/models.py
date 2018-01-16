@@ -35,8 +35,8 @@ class Key(BaseModel):
 if __name__=='__main__':
     # api=DB.query(Api).filter(Api.id=='/sms/sender/any_text_sender').first()
     # api.route='192.168.199.6:6678/sms/sender/any_text_sender'
-    # api=Api(id='/sms/sender/any_text_sender',route='192.168.199.6:6678/sms/sender/any_text_sender')
-    # DB.add(api)
-    A=Authority(user_id='liangoy',api_id='/sms/sender/any_text_sender',count=str(10*8))
-    DB.add(A)
+    api=Api(id='/sms/sender/identifying_code_sender',route='192.168.199.6:6678/sms/sender/identifying_code_sender')
+    DB.add(api)
+    # A=Authority(user_id='liangoy',api_id='/sms/sender/templet_sender',count=str(10*8))
+    # DB.add(A)
     DB.commit()

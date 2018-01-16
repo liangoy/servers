@@ -48,5 +48,5 @@ def verify_quory(r):  # 输入是flask的request,需要完善对timestamp和sign
 
 
 if __name__ == '__main__':
-    print(get_quory_string(par={'to': '18030255113', 'text': 'nihao'}, service='/sms/sender/any_text_sender',
+    print(get_quory_string(par={'to': '18030255113', 'identifying_code': 'binbin'}, service='/sms/sender/identifying_code_sender',
                            keyid='LTAIpQAJHrAE6J9z', keysecret='iXtiK9jz6KOE2Oa6VUOmlp8CxwPUVG',http_method='PUT'))
