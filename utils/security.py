@@ -8,7 +8,7 @@ import hmac
 from models.models import DB, Key
 
 
-def get_quory_string(par=None, keyid=None, keysecret=None, service=None, http_method='GET'):  # 生成quory
+def get_query_string(par=None, keyid=None, keysecret=None, service=None, http_method='GET'):  # 生成query
     dic = {
         'keyid': str(keyid),
         'timestamp': str(int(time.time())),
@@ -28,7 +28,7 @@ def get_quory_string(par=None, keyid=None, keysecret=None, service=None, http_me
     return reduce(lambda x, y: x + '&' + y, [quote(i) + '=' + quote(dic[i]) for i in sorted(dic)])
 
 
-def verify_quory(r):  # 输入是flask的request,需要完善对timestamp和signaturenonce的利用
+def verify_query(r):  # 输入是flask的request,需要完善对timestamp和signaturenonce的利用
     dic = r.args.to_dict()
     http_method = r.method
 
@@ -48,5 +48,5 @@ def verify_quory(r):  # 输入是flask的request,需要完善对timestamp和sign
 
 
 if __name__ == '__main__':
-    print(get_quory_string(par={'to': '18030255113', 'identifying_code': 'binbin'}, service='/sms/sender/identifying_code_sender',
+    print(get_query_string(par={'to': '18030255113', 'identifying_code': 'binbin'}, service='/sms/sender/identifying_code_sender',
                            keyid='LTAIpQAJHrAE6J9z', keysecret='iXtiK9jz6KOE2Oa6VUOmlp8CxwPUVG',http_method='PUT'))
