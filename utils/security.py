@@ -13,11 +13,11 @@ def get_query_string(par=None, keyid=None, keysecret=None, service=None, http_me
         'keyid': str(keyid),
         'timestamp': str(int(time.time())),
         'signaturenonce': str(ObjectId()),
-        'service': str(service)
+        'service': str(service),
+        'method': http_method
     }
     dic.update(par)
-    qs = reduce(lambda x, y: x + '&' + y, [quote(i) + '=' + quote(dic[i]) for i in sorted(dic)])
-    string_to_sign = http_method + '&%2F&' + quote(qs)
+    string_to_sign = reduce(lambda x, y: x + '&' + y, [quote(i) + '=' + quote(dic[i]) for i in sorted(dic)])
     # sign------------------------------------------------------------------------------------------
     sign_key = keysecret.encode()
     sign_value = string_to_sign.encode()
@@ -30,11 +30,13 @@ def get_query_string(par=None, keyid=None, keysecret=None, service=None, http_me
 
 def verify_query(r):  # 输入是flask的request,需要完善对timestamp和signaturenonce的利用
     dic = r.args.to_dict()
-    http_method = r.method
+    http_method = str(r.method)
+
+    if http_method!=dic['method']:#检查httpmethod
+        return 0
 
     signature_ = dic.pop('signature')
-    qs = reduce(lambda x, y: x + '&' + y, [quote(i) + '=' + quote(dic[i]) for i in sorted(dic)])
-    string_to_sign = http_method + '&%2F&' + quote(qs)
+    string_to_sign = reduce(lambda x, y: x + '&' + y, [quote(i) + '=' + quote(dic[i]) for i in sorted(dic)])
     # sign------------------------------------------------------------------------------------------
     sign_key = DB.query(Key).filter(Key.keyid == dic['keyid']).first().keysecret.encode()
     sign_value = string_to_sign.encode()
@@ -48,5 +50,6 @@ def verify_query(r):  # 输入是flask的request,需要完善对timestamp和sign
 
 
 if __name__ == '__main__':
-    print(get_query_string(par={'to': '18030255113', 'identifying_code': 'binbin'}, service='/sms/sender/identifying_code_sender',
-                           keyid='LTAIpQAJHrAE6J9z', keysecret='iXtiK9jz6KOE2Oa6VUOmlp8CxwPUVG',http_method='PUT'))
+    print(get_query_string(par={'to': '18030255113', 'identifying_code': 'binbin'},
+                           service='/sms/sender/identifying_code_sender',
+                           keyid='LTAIpQAJHrAE6J9z', keysecret='iXtiK9jz6KOE2Oa6VUOmlp8CxwPUVG', http_method='PUT'))

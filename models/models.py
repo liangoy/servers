@@ -14,6 +14,7 @@ class Api(BaseModel):
     __tablename__ = 'apis'
     id = Column(String(64),primary_key=True)#api的唯一id
     route = Column(String(256),default='')#api地址
+    method = Column(String(256),default='GET')#api请求方法
 
 class Authority(BaseModel):
     __tablename__='authority'

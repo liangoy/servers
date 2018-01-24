@@ -1,23 +1,23 @@
 from flask import Blueprint
 from flask import request
-from utils.security import verify_quory
+from utils.security import verify_query
 import json
 from models.models import DB, Api, Key,Authority
 import requests
 
-view = Blueprint('api', __name__)
+flask_view = Blueprint('api', __name__)
 
 
-@view.route('/')
-@view.route('/test', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@flask_view.route('/')
+@flask_view.route('/test', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def test(**args):
     response=requests.get('http://www.baidu.com')
     return response.content,response.status_code
 
 
-@view.route('/api', methods=['GET', 'POST', 'PUT', 'DELETE'])
+@flask_view.route('/api', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def api():
-    if not verify_quory(request):
+    if not verify_query(request):
         return '验证不通过', 400
     dic=request.args.to_dict()
     service=dic.pop('service')
